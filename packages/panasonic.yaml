@@ -1,0 +1,614 @@
+modbus:
+  - name: panasonic
+    type: tcp
+    host: 192.168.1.113  # User specific setting
+    port: 4196 # User specific setting
+    timeout: 3 #Timeout for slave response in seconds (default=3)
+    delay: 3 #Time to sleep in seconds after connecting and before sending messages (defualt=0)
+
+    switches:
+      - name: panasonic_system_on_off
+        slave: 1
+        address: 0
+        verify:
+      - name: panasonic_tank_on_off
+        slave: 1
+        address: 30
+        verify:
+    climates:
+      - name: "panasonic_tank_climate"
+        slave: 1
+        address: 32
+        input_type: holding
+        max_temp: 65
+        min_temp: 40
+        target_temp_register: 33
+        temp_step: 1
+        temperature_unit: C
+        hvac_mode_register:
+            address: 30
+            values:
+                state_heat: 1
+                state_off: 0
+      - name: "panasonic_zone1_climate"
+        slave: 1
+        address: 14
+        input_type: holding
+        max_temp: 5
+        min_temp: -5
+        target_temp_register: 12
+        temp_step: 1
+        temperature_unit: C
+
+########General System Control
+    sensors:
+      - name: panasonic_system_on_off
+        slave: 1
+        address: 0 #0: Off, 1: On(default)
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_outdoor_temperature
+        slave: 1
+        address: 1
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_outlet_water_temperature
+        slave: 1
+        address: 2
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_inlet_water_temperature
+        slave: 1
+        address: 3
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_operating_mode
+        slave: 1
+        address: 4 #1: Heat, 2: Heat Tank, 3: Tank, 4: Cool Tank, 5: Cool, 6: Auto(Default), 7: Auto Tank, 8: Auto Heat, 9: Auto Heat Tank, 10: Auto Cool 11: Auto Cool Tank
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_heat_mode_water_temp_setting_method
+        slave: 1
+        address: 5 #1: Compensation curve, 2: Direct (Default)
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_cool_mode_water_temp_setting_method
+        slave: 1
+        address: 6 #1: Compensation curve, 2: Direct (Default)
+        input_type: holding
+        data_type: uint16
+
+########Zones
+      - name: panasonic_zone_1_zone_2_on_off
+        slave: 1
+        address: 9 #1: On/Off, 2: Off/On, 3: On/On
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_1_sensors
+        slave: 1
+        address: 10 #1: Water temperature, 2: External room sensor, 3: Internal room sensor, 4: Room thermistor, 5: Pool Sensor
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_2_sensors
+        slave: 1
+        address: 11 #1: Water temperature, 2: External room sensor, 3: Internal room sensor, 4: Room thermistor, 5: Pool Sensor
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_1_setpoint_temperature
+        slave: 1
+        address: 12
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_zone_2_setpoint_temperature
+        slave: 1
+        address: 13
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+#      - name: panasonic_zone_1_current_temperature
+#        slave: 1
+#        address: 14
+#        input_type: holding
+#        unit_of_measurement: °C
+#        data_type: int16
+      - name: panasonic_zone_2_current_temperature
+        slave: 1
+        address: 15
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_zone_1_temperature_setting_mode
+        slave: 1
+        address: 16 #1: Room temperature, 2: Compensation curve (Water Temp), 3: Direct (Water Temp), 4: Pool Temp
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_2_temperature_setting_mode
+        slave: 1
+        address: 17 #1: Room temperature, 2: Compensation curve (Water Temp), 3: Direct (Water Temp), 4: Pool Temp
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_1_min_setpoint_temperature
+        slave: 1
+        address: 18
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_zone_1_max_setpoint_temperature
+        slave: 1
+        address: 19
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_zone_2_min_setpoint_temperature
+        slave: 1
+        address: 20
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_zone_2_max_setpoint_temperature
+        slave: 1
+        address: 21
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+
+########Tank Configuration
+      - name: panasonic_tank_on_off
+        slave: 1
+        address: 30 #0: Off, 1: On
+        input_type: holding
+        data_type: uint16
+#      - name: panasonic_tank_current_water_temperature
+#        slave: 1
+#        address: 32
+#        input_type: holding
+#        unit_of_measurement: °C
+#        data_type: int16
+      - name: panasonic_tank_water_setpoint_temperature
+        slave: 1
+        address: 33
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_tank_heater
+        slave: 1
+        address: 34 #1: Internal, 2: External
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_tank_min_water_setpoint_temperature
+        slave: 1
+        address: 35
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+      - name: panasonic_tank_max_water_setpoint_temperature
+        slave: 1
+        address: 36
+        input_type: holding
+        unit_of_measurement: °C
+        data_type: int16
+
+########Consumption
+      - name: panasonic_tank_mode_energy_consumption
+        slave: 1
+        address: 45
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+      - name: panasonic_heat_mode_energy_consumption
+        slave: 1
+        address: 46
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+      - name: panasonic_cool_mode_energy_consumption
+        slave: 1
+        address: 47
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+      - name: panasonic_tank_mode_energy_generation
+        slave: 1
+        address: 187
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+      - name: panasonic_heat_mode_energy_generation
+        slave: 1
+        address: 188
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+      - name: panasonic_cool_mode_energy_generation
+        slave: 1
+        address: 189
+        input_type: holding
+        unit_of_measurement: W
+        data_type: uint16
+
+########Maintenance
+      - name: panasonic_error_code
+        slave: 1
+        address: 52 #0: No Error, 1xxx: H+err, 2xxx: F+err
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_device_status
+        slave: 1
+        address: 64 #0: Off, 1: On
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_current_error_status
+        slave: 1
+        address: 70 #0: No error, 1: Error
+        input_type: holding
+        data_type: uint16
+
+########Unit Configuration
+      - name: panasonic_tank_connection
+        slave: 1
+        address: 81 #0: No, 1: Yes
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_number_of_zones
+        slave: 1
+        address: 82
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_1_setup
+        slave: 1
+        address: 83 #1: Room, 2: Pool
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_zone_2_setup
+        slave: 1
+        address: 84 #1: Room, 2: Pool
+        input_type: holding
+        data_type: uint16
+      - name: panasonic_direction
+        slave: 1
+        address: 85 #1: Room
+        input_type: holding
+        data_type: uint16
+
+################################################################################
+# SENSORS
+################################################################################
+
+sensor:
+  - platform: template
+    sensors:
+      panasonic_mode:
+        friendly_name: "Mode"
+        value_template: >-
+          {% if states('sensor.panasonic_operating_mode')|int == 1 %}
+            Heat
+          {% elif states('sensor.panasonic_operating_mode')|int == 2  %}
+            Heat Tank
+          {% elif states('sensor.panasonic_operating_mode')|int == 3  %}
+            Tank
+          {% elif states('sensor.panasonic_operating_mode')|int == 4  %}
+            Cool Tank
+          {% elif states('sensor.panasonic_operating_mode')|int == 5 %}
+            Cool
+          {% elif states('sensor.panasonic_operating_mode')|int == 6 %}
+            Auto
+          {% elif states('sensor.panasonic_operating_mode')|int == 7  %}
+            Auto Tank
+          {% elif states('sensor.panasonic_operating_mode')|int == 8  %}
+            Auto Heat
+          {% elif states('sensor.panasonic_operating_mode')|int == 9  %}
+            Auto Heat Tank
+          {% elif states('sensor.panasonic_operating_mode')|int == 10 %}
+            Auto Cool
+          {% elif states('sensor.panasonic_operating_mode')|int == 11 %}
+            Auto Cool Tank
+          {% else %}
+            WTF
+          {% endif %}
+      panasonic_system:
+        friendly_name: "Panasonic System On/Off"
+        value_template: >-
+          {% if states('sensor.panasonic_system_on_off')|int == 0 %}
+            Off
+          {% elif states('sensor.panasonic_system_on_off')|int == 1  %}
+            On
+          {% else %}
+            WTF
+          {% endif %}
+      panasonic_tank:
+        friendly_name: "Panasonic Tank On/Off"
+        value_template: >-
+          {% if states('sensor.panasonic_tank_on_off')|int == 0 %}
+            Off
+          {% elif states('sensor.panasonic_tank_on_off')|int == 1  %}
+            On
+          {% else %}
+            WTF
+          {% endif %}
+      panasonic_error:
+        friendly_name: "Panasonic Error"
+        value_template: >-
+          {% if states('sensor.panasonic_error_code')|int == 0 %}
+            No abnormality detected
+          {% elif states('sensor.panasonic_error_code')|int == 112 %}
+            Indoor/Outdoor capacity unmatched
+          {% elif states('sensor.panasonic_error_code')|int == 115 %}
+            Outdoor compressor temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 120 %}
+            Water pump abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 123 %}
+            Indoor refrigerant liquid temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 127 %}
+            Service valve error
+          {% elif states('sensor.panasonic_error_code')|int == 128 %}
+            Abnormal solar sensor
+          {% elif states('sensor.panasonic_error_code')|int == 131 %}
+            Abnormal swimming pool sensor
+          {% elif states('sensor.panasonic_error_code')|int == 136 %}
+            Abnormal buffer tank sensor
+          {% elif states('sensor.panasonic_error_code')|int == 138 %}
+            Brand code not match
+          {% elif states('sensor.panasonic_error_code')|int == 142 %}
+            Compressor low pressure abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 143 %}
+            Abnormal Zone 1 sensor
+          {% elif states('sensor.panasonic_error_code')|int == 144 %}
+            Abnormal Zone 2 sensor
+          {% elif states('sensor.panasonic_error_code')|int == 162 %}
+            Water flow switch abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 163 %}
+            Refrigerant low pressure abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 164 %}
+            Refrigerant high pressure abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 165 %}
+            Deice circulation error
+          {% elif states('sensor.panasonic_error_code')|int == 167 %}
+            Abnormal External Thermistor 1
+          {% elif states('sensor.panasonic_error_code')|int == 168 %}
+            Abnormal External Thermistor 2
+          {% elif states('sensor.panasonic_error_code')|int == 170 %}
+            Back-up heater OLP abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 172 %}
+            Tank sensor abnormal
+          {% elif states('sensor.panasonic_error_code')|int == 174 %}
+            PCB communication error
+          {% elif states('sensor.panasonic_error_code')|int == 175 %}
+            Low water temperature control
+          {% elif states('sensor.panasonic_error_code')|int == 176 %}
+            Indoor - control panel communication abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 190 %}
+            Indoor/outdoor abnormal communication
+          {% elif states('sensor.panasonic_error_code')|int == 191 %}
+            Tank heater OLP abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 195 %}
+            Indoor/Outdoor wrong connection
+          {% elif states('sensor.panasonic_error_code')|int == 198 %}
+            Outdoor high pressure overload protection
+          {% elif states('sensor.panasonic_error_code')|int == 199 %}
+            Indoor heat exchanger freeze prevention
+          {% elif states('sensor.panasonic_error_code')|int == 212 %}
+            Pressure switch activate
+          {% elif states('sensor.panasonic_error_code')|int == 214 %}
+            Outdoor compressor abnormal revolution
+          {% elif states('sensor.panasonic_error_code')|int == 215 %}
+            Outdoor fan motor lock abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 216 %}
+            Total running current protection
+          {% elif states('sensor.panasonic_error_code')|int == 220 %}
+            Outdoor compressor overheating protection
+          {% elif states('sensor.panasonic_error_code')|int == 222 %}
+            IPM (power transistor) overheating protection
+          {% elif states('sensor.panasonic_error_code')|int == 223 %}
+            Outdoor Direct Current (DC) peak detection
+          {% elif states('sensor.panasonic_error_code')|int == 224 %}
+            Refrigeration cycle abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 225 %}
+            Cooling/Heating cycle changeover abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 227 %}
+            Pressure switch abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 229 %}
+            Low Discharge Superheat
+          {% elif states('sensor.panasonic_error_code')|int == 230 %}
+            Water outlet sensor 2 abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 232 %}
+            Abnormal Internal Thermostat
+          {% elif states('sensor.panasonic_error_code')|int == 236 %}
+            Outdoor air temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 237 %}
+            Indoor water inlet temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 240 %}
+            Outdoor discharge pipe temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 241 %}
+            PFC control
+          {% elif states('sensor.panasonic_error_code')|int == 242 %}
+            Outdoor heat exchanger temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 243 %}
+            Outdoor defrost sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 245 %}
+            Indoor water outlet temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 246 %}
+            Outdoor Current Transformer open circuit
+          {% elif states('sensor.panasonic_error_code')|int == 248 %}
+            Outdoor EVA outlet temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 249 %}
+            Outdoor bypass outlet temperature sensor abnormality
+          {% elif states('sensor.panasonic_error_code')|int == 295 %}
+            Cooling high pressure overload protection
+          {% else %}
+            WTF
+          {% endif %}
+################################################################################
+# Switches
+################################################################################
+
+switch:
+  - platform: template
+    switches:
+      panasonic_heat_mode_switch:
+        friendly_name: Heat mode
+        value_template: "{{ is_state('sensor.panasonic_mode', ['Heat', 'Heat Tank']) }}"
+        turn_on:
+          - service: script.panasonic_heat_mode_script_on
+        turn_off:
+          - service: script.panasonic_heat_mode_script_off
+################################################################################
+# Script
+################################################################################
+script:
+  panasonic_heat_mode_script_on:
+    sequence:
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "0"
+          - condition: state
+            entity_id: switch.panasonic_master_switch
+            state: "on"
+        then:
+          - service: switch.turn_on
+            entity_id: switch.panasonic_system_on_off
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 1
+          - delay: "00:00:02"
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 30
+              value: 0	
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "1"
+          - condition: state
+            entity_id: sensor.panasonic_tank_on_off
+            state: "1"			
+        then:
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 2
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "1"
+          - condition: state
+            entity_id: sensor.panasonic_tank_on_off
+            state: "0"
+        then:
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 1
+
+
+  panasonic_heat_mode_script_off:
+    sequence:
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "0"
+        then:
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 3
+          - delay: "00:00:05"
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 30
+              value: 0
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "1"
+          - condition: state
+            entity_id: sensor.panasonic_tank_on_off
+            state: "1"
+        then:
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 3
+      - if:
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "1"
+          - condition: state
+            entity_id: sensor.panasonic_tank_on_off
+            state: "0"
+        then:
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 4
+              value: 3
+          - delay: "00:00:05"
+          - service: modbus.write_register
+            data_template:
+              hub: panasonic
+              unit: 1
+              address: 30
+              value: 0
+          - service: switch.turn_off
+            entity_id: switch.panasonic_system_on_off
+automation:
+  - alias: "Switch off system if tank is off and mode is Tank"
+    trigger:
+      - platform: state
+        entity_id: climate.panasonic_tank_climate
+        from: "heat"
+        to: "off"
+    condition:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.panasonic_operating_mode
+            state: "3"
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "1"
+    action:
+      - service: switch.turn_off
+        entity_id: switch.panasonic_system_on_off
+
+  - alias: "Switch on system if tank is on and mode is Tank"
+    trigger:
+      - platform: state
+        entity_id: climate.panasonic_tank_climate
+        from: "off"
+        to: "heat"
+    condition:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.panasonic_operating_mode
+            state: "3"
+          - condition: state
+            entity_id: sensor.panasonic_system_on_off
+            state: "0"
+          - condition: state
+            entity_id: switch.panasonic_master_switch
+            state: "on"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.panasonic_system_on_off

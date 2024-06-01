@@ -1,0 +1,23 @@
+title: ''
+views:
+  - path: default_view
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.panasonic_system
+          - entity: sensor.panasonic_number_of_zones
+          - entity: sensor.panasonic_outdoor_temperature
+          - entity: sensor.panasonic_mode
+          - entity: sensor.panasonic_tank
+          - entity: climate.panasonic_tank_climate
+          - entity: sensor.panasonic_error
+      - type: entities
+        entities:
+          - switch.panasonic_heat_mode_switch
+      - type: thermostat
+        entity: climate.panasonic_zone1_climate
+      - type: gauge
+        entity: sensor.panasonic_tank_mode_energy_consumption
+      - type: gauge
+        entity: sensor.panasonic_heat_mode_energy_consumption
+    title: HOME
