@@ -1,5 +1,5 @@
 # intesis-panasonic
-Simple control of Panasonic heat pump via Modbus TCP (WiFi) directly to HA using Intesis PAW-AW-MBS-H.
+Simple control of Panasonic heat pump via Modbus TCP (WiFi) directly to HA using Intesis PAW-AW-MBS-H/PA-AW2-MBS-1(INMBSPAN001A000).
 
 With this, you can currently:
 - Change operation modes: off, heat, heat with tank, and tank.
@@ -24,7 +24,7 @@ My Control Panel is very simple, and the code is in this repository under the `u
 <img src="https://i.imgur.com/nmqSxJz.png" width=40% height=40%>
 
 Hardware required (for my setup):
-- Intesis PAW-AW-MBS-H
+- Intesis PAW-AW-MBS-H/PA-AW2-MBS-1(INMBSPAN001A000)
 - A Modbus TCP converter. I use the Waveshare RS485 PoE(https://www.waveshare.com/wiki/RS485_TO_ETH_(B))
 
 How to install this:
