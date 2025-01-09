@@ -21,7 +21,7 @@ Compatibility list:
 
 My Control Panel is very simple, and the code is in this repository under the `user_interface` folder.
 
-<img src="https://i.imgur.com/nmqSxJz.png" width=40% height=40%>
+<img src="./images/panel.png" width="40%" height="40%">
 
 Hardware required (for my setup):
 - Intesis PAW-AW-MBS-H/PA-AW2-MBS-1(INMBSPAN001A000)
@@ -45,10 +45,10 @@ I found this video very useful for configuring RS485 PoE; it was not so straight
 
 Wiring (all DIP-switches have default configuration):
 
-<img src="https://i.imgur.com/vsKi3i6.jpg" width=40% height=40%>
+<img src="./images/wiring.png" width="40%" height="40%">
 
 My settings that work for my RS485 PoE:
 
-<img src="https://i.imgur.com/jFMEWii.png" width=40% height=40%>
+<img src="./images/main.png" width="40%" height="40%">
 
-<img src="https://i.imgur.com/ZH2ZEIj.png" width=40% height=40%>
+<img src="./images/advanced.png" width="40%" height="40%">
